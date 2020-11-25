@@ -32,8 +32,8 @@ class Felhasznalo {
         this.megvasaroltJatekok = new ArrayList();
     }
     
+      
     
-
     public String getFelhasznaloNev() {
         return felhasznaloNev;
     }
@@ -48,10 +48,6 @@ class Felhasznalo {
 
     public int getKor() {
         return kor;
-    }
-
-    public int getEngyenleg() {
-        return egyenleg;
     }
 
     public boolean isAdmin() {
@@ -90,5 +86,23 @@ class Felhasznalo {
     public String toString() {
         return "Felhasználó név: " + felhasznaloNev + " jelszo=" + jelszo + ", teljesNev=" + teljesNev + ", kor=" + kor + ", egyenleg=" + egyenleg + ", admin=" + admin + ", bannolt=" + bannolt + '}';
     }
+
+    public int getEgyenleg() {
+        return egyenleg;
+    }
+
+    public boolean isBannolt() {
+        return bannolt;
+    }
+
+    public List<Jatek> getMegvasaroltJatekok() {
+        return megvasaroltJatekok;
+    }
+
+    public void setEgyenleg(int egyenleg) {
+        this.egyenleg = egyenleg;
+    }
+    
+    
         
 }

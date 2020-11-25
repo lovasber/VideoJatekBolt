@@ -83,6 +83,27 @@ public class Keretrendszer {
         switch(opcio){
             case 1 : //ujJatek vasarlas
                 
+                    //játékok kilistázása
+                    bolt.jatekokKilistazasa();
+                    //kiválasztás
+                    int jatekID = -1;
+                    while(jatekID == -1){
+                        try {
+                            jatekID = Integer.parseInt(scan.nextLine());
+                        } catch (Exception e) {
+                            System.out.println("Nem szám!");
+                        }
+                    }
+                    jatekID--;
+                    Jatek kivalasztottJatek = this.bolt.getJatek(jatekID);
+                    if(kivalasztottJatek.getAr() > belepettFelhasznalo.getEgyenleg()){
+                        System.out.println("Nincs elegendő összeg az egyenlegén. A tranzakció nem hajtható végre");
+                    }else{
+                        belepettFelhasznalo.getMegvasaroltJatekok().add(kivalasztottJatek);
+                        belepettFelhasznalo.setEgyenleg(belepettFelhasznalo.getEgyenleg() - kivalasztottJatek.getAr());
+                        System.out.println("Sikeres tranzakció!");
+                    }
+
                 break;
             case 2 : //jatekaimKezelese
                 break;
