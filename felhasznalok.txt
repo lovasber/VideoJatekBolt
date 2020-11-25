@@ -1,0 +1,5 @@
+felhasznalonev;jelszo;teljesNev;kor;egyenleg;admin;bannolt
+lovas;1234;Lovas Bertalan;23;500;true;false
+proba;123;;0;0;false;false
+jj;123;;0;0;false;false
+admin;123;;0;0;false;false
