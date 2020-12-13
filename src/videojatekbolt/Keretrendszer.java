@@ -27,31 +27,35 @@ public class Keretrendszer {
     }
      
     private void belepes() {
-        
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));            
-            System.out.println("Belépés");
-            System.out.print("Felhasználó név: ");
-            String fnev="";
-            String jelszo="";
-            fnev = br.readLine();
-            System.out.print("Jelszó: ");
-            jelszo = br.readLine();
+        boolean sikeresBelepesE = false;
+        while(!sikeresBelepesE){
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));            
+                System.out.println("Belépés");
+                System.out.print("Felhasználó név: ");
+                String fnev="";
+                String jelszo="";
 
-            int i = 0;
-            while(i < this.felhasznaloTarolo.getFelhasznalok().size() && !(this.felhasznaloTarolo.getFelhasznalok().get(i).getFelhasznaloNev().equals(fnev) && this.felhasznaloTarolo.getFelhasznalok().get(i).getJelszo().equals(jelszo))){
-                i++;
-            }
-            if(i == this.felhasznaloTarolo.getFelhasznalok().size()){
-                System.out.println("Hibás felhasználónév vagy jelszó!");
-            }else{
-                this.belepettFelhasznalo =  this.felhasznaloTarolo.getFelhasznalok().get(i);
-                System.out.println("Sikeres belépés, üdvözöljük "+this.felhasznaloTarolo.getFelhasznalok().get(i).getFelhasznaloNev() + "!");
-                menuPontok();
-            }
-        } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
-        } 
+                fnev = br.readLine();
+                System.out.print("Jelszó: ");
+                jelszo = br.readLine();
+
+                int i = 0;
+                while(i < this.felhasznaloTarolo.getFelhasznalok().size() && !(this.felhasznaloTarolo.getFelhasznalok().get(i).getFelhasznaloNev().equals(fnev) && this.felhasznaloTarolo.getFelhasznalok().get(i).getJelszo().equals(jelszo))){
+                    i++;
+                }
+                if(i == this.felhasznaloTarolo.getFelhasznalok().size()){
+                    System.out.println("Hibás felhasználónév vagy jelszó!");
+                }else{
+                    this.belepettFelhasznalo =  this.felhasznaloTarolo.getFelhasznalok().get(i);
+                    System.out.println("Sikeres belépés, üdvözöljük "+this.felhasznaloTarolo.getFelhasznalok().get(i).getFelhasznaloNev() + "!");
+                    sikeresBelepesE = true;
+                    menuPontok();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getLocalizedMessage());
+            } 
+        }
     }
     
     private void menuPontok(){
@@ -94,9 +98,11 @@ public class Keretrendszer {
                             System.out.println("Nem szám!");
                         }
                     }
+                    //létezik e a játék? jó e az id?
+                    
                     jatekID--;
                     Jatek kivalasztottJatek = this.bolt.getJatek(jatekID);
-                    if(kivalasztottJatek.getAr() > belepettFelhasznalo.getEgyenleg()){
+                    if(kivalasztottJatek.getAr() >= belepettFelhasznalo.getEgyenleg()){
                         System.out.println("Nincs elegendő összeg az egyenlegén. A tranzakció nem hajtható végre");
                     }else{
                         belepettFelhasznalo.getMegvasaroltJatekok().add(kivalasztottJatek);

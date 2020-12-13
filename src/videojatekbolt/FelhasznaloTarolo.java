@@ -59,9 +59,10 @@ public class FelhasznaloTarolo {
                 System.out.println("Ez a felhasználónév már foglalt!");
             }
         }
-        
+
         String jelszo = "";
         String megerosit = "megerosites";
+ 
         int kor = -1;
         while(!jelszo.equals(megerosit)){
             System.out.print("Jelszó: ");
@@ -72,21 +73,27 @@ public class FelhasznaloTarolo {
                 System.out.println("A két jelszó nem egyezik meg!");
             }
         }
+        /*
         try {
-            
+          */  
             while(kor != -1){
                 System.out.println("Kor: ");
                 String sKor = scan.nextLine();
                 kor = Integer.parseInt(sKor);
+                
                 if(kor == -1){
-                    throw new ParseException(sKor,kor );
+                    System.out.println("Nem szám!");
+                }
+                if(kor<0){
+                    kor=10;
                 }
             }
-        
+        /*
         }catch(ParseException ex){
             System.out.println("Nem szám");
-        }
-   
+        }*/
+        System.out.println("Sikeres regisztráció!");
+        
         this.felhasznalok.add(new Felhasznalo(fnev, jelszo,"", 0));
     }
     
