@@ -53,7 +53,7 @@ public class Keretrendszer {
                     } while (!(regVagynem.toLowerCase().equals("y") || regVagynem.toLowerCase().equals("n")));
                     if(regVagynem.toLowerCase().equals("y")){                        
                         regisztracio();                      
-                                              
+                        sikeresBelepesE = true;                  
                     }                          
                     
                 }else{
@@ -273,26 +273,30 @@ public class Keretrendszer {
     }
 
     private void jatekKezelesMain() {
-        this.belepettFelhasznalo.jatekokKilistazasa();
-        int valasztottJatekIndex = -1;               
-           
         
-        String jatekVagyNem = "";
-        Scanner scan = new Scanner(System.in);
-        do {      
-            System.out.println("Szeretne-e játszani?(y/n): ");     
-            jatekVagyNem = scan.nextLine();
-        } while (!(jatekVagyNem.toLowerCase().equals("y") || jatekVagyNem.toLowerCase().equals("n")));
+        int valasztottJatekIndex = -1;                
         
-        if(jatekVagyNem.equals("y")){            
-            do {            
-                valasztottJatekIndex = szamBekert("Játék sorszáma");
-            } while (valasztottJatekIndex > belepettFelhasznalo.getMegvasaroltJatekok().size() || valasztottJatekIndex <= 0);
-         
-            System.out.println("A választott játék: "+this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).getNev());
-            int jatszaniKivantOraSzam = szamBekert("Ennyi órát szeretnék játszani");
-            this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).jatszas(jatszaniKivantOraSzam);
-        }                        
+        if(!this.belepettFelhasznalo.getMegvasaroltJatekok().isEmpty()){  
+            this.belepettFelhasznalo.jatekokKilistazasa();
+            String jatekVagyNem = "";
+            Scanner scan = new Scanner(System.in);
+            do {      
+                System.out.println("Szeretne-e játszani?(y/n): ");     
+                jatekVagyNem = scan.nextLine();
+            } while (!(jatekVagyNem.toLowerCase().equals("y") || jatekVagyNem.toLowerCase().equals("n")));
+
+            if(jatekVagyNem.equals("y")){            
+                do {            
+                    valasztottJatekIndex = szamBekert("Játék sorszáma");
+                } while (valasztottJatekIndex > belepettFelhasznalo.getMegvasaroltJatekok().size() || valasztottJatekIndex <= 0);
+
+                System.out.println("A választott játék: "+this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).getNev());
+                int jatszaniKivantOraSzam = szamBekert("Ennyi órát szeretnék játszani");
+                this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).jatszas(jatszaniKivantOraSzam);
+            }
+        }else{
+            System.out.println("Nincs játék a könyvtárban");
+        }
     }
 
     private void felhasznalokKezeleseMain() {
