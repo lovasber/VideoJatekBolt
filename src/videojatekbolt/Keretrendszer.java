@@ -44,7 +44,22 @@ public class Keretrendszer {
                     i++;
                 }
                 if(i == this.felhasznaloTarolo.getFelhasznalok().size()){
-                    System.out.println("Hibás felhasználónév vagy jelszó!");
+                    System.out.println("Hibás felhasználónév vagy jelszó!");                    
+                    String regVagynem = "";
+                    Scanner scan = new Scanner(System.in);
+                    do {                      
+                        System.out.println("Szeretne regisztrálni? (y/n)");
+                        regVagynem = scan.nextLine();
+                    } while (!(regVagynem.toLowerCase().equals("y") || regVagynem.toLowerCase().equals("n")));
+                    if(regVagynem.toLowerCase().equals("y")){
+                        //regisztráció megnyit
+                        felhasznaloTarolo.regisztracio();
+                        start();
+                    }else{
+                        
+                    }
+                            
+                    
                 }else{
                     if(this.felhasznaloTarolo.getFelhasznalok().get(i).isBanned()){
                         System.out.println("Sikertelen belépés, ez a fiók bannolva lett.");
@@ -52,7 +67,7 @@ public class Keretrendszer {
                         this.belepettFelhasznalo =  this.felhasznaloTarolo.getFelhasznalok().get(i);
                         System.out.println("Sikeres belépés, üdvözöljük "+this.felhasznaloTarolo.getFelhasznalok().get(i).getFelhasznaloNev() + "!");
                         sikeresBelepesE = true;
-                        menuPontok();
+                        menuPontFuttatas();
                     }
                     
                 }
@@ -72,9 +87,7 @@ public class Keretrendszer {
             System.out.println("5 - Felhasználók kezelése");
             System.out.println("6 - Játékok kezelése");
         }
-        System.out.println("0 - Kilépés");
-        
-        menuPontFuttatas();
+        System.out.println("0 - Kilépés");                
     }
     
     private void ujJatekVasarlasMain(){
@@ -116,7 +129,7 @@ public class Keretrendszer {
     private void menuPontFuttatas(){        
         int opcio = -1;
         while(opcio != 0){
-            menuPontok();
+           menuPontok();
             opcio = szamBekert("Menüpont sorszáma");
         
             switch(opcio){
@@ -163,8 +176,7 @@ public class Keretrendszer {
        
          int felhasznaloInput = -1;
         
-        while(felhasznaloInput != 0){
-        System.out.println("Üdvözüljük!");
+        while(felhasznaloInput != 0){        
         System.out.println("Van már létező profilja?");
         System.out.println("1 - Igen, Belépés");
         System.out.println("2 - Nincs, Regisztráció");

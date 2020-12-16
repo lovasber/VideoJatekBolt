@@ -6,3 +6,4 @@ admin;123;;0;0;false;false;Counter-Strike*FPS*16*3500*FPS lövöldözős játék
 g;g;;0;0;false;false;
 r;r;;0;0;false;false;
 test;test;;0;12255;false;false;snake*ügyességi*0*300**3
+levi;g;;0;5200;false;false;Fall guys*Arcade*12*8000*Mászkálós akadályokon átmászós játék*5
