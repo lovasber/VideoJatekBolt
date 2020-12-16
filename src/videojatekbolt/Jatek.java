@@ -8,14 +8,15 @@ class Jatek {
     private String stilus;
     private int korhatar;
     private int ar;
-    private String leiras = "";
+    private String leiras;
     private int jatszottOrak = 0;
 
-    public Jatek(String nev, String stilus, int korhatar, int ar) {
+    public Jatek(String nev, String stilus, int korhatar, int ar,String leiras) {
         this.nev = nev;
         this.stilus = stilus;
         this.korhatar = korhatar;
         this.ar = ar;  
+        this.leiras = leiras;
     }
     
     public Jatek(String nev, String stilus, int korhatar, int ar,String leiras,int jatszottOrak) {

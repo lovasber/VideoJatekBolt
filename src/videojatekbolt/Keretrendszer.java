@@ -48,17 +48,14 @@ public class Keretrendszer {
                     String regVagynem = "";
                     Scanner scan = new Scanner(System.in);
                     do {                      
-                        System.out.println("Szeretne regisztrálni? (y/n)");
+                        System.out.print("Szeretne regisztrálni? (y/n): ");
                         regVagynem = scan.nextLine();
                     } while (!(regVagynem.toLowerCase().equals("y") || regVagynem.toLowerCase().equals("n")));
                     if(regVagynem.toLowerCase().equals("y")){
                         //regisztráció megnyit
                         felhasznaloTarolo.regisztracio();
                         start();
-                    }else{
-                        
-                    }
-                            
+                    }                          
                     
                 }else{
                     if(this.felhasznaloTarolo.getFelhasznalok().get(i).isBanned()){
@@ -142,16 +139,14 @@ public class Keretrendszer {
                 case 3 : //penzfeltoltes
                     penzfeltoltesMain();
                     break;
-                case 4 : //profil szerkesztées
-                    break;
-                case 5 ://felhasznalok kezelese
+                case 4 ://felhasznalok kezelese
                      if(this.belepettFelhasznalo.isAdmin()){
                          felhasznalokKezeleseMain();
                      }else{
                         System.out.println("Hibás menüpnt");
                     }
                     break;
-                case 6 : //jatekok kezelese
+                case 5 : //jatekok kezelese
                     if(this.belepettFelhasznalo.isAdmin()){
                          jatekokKezeleseMain();
                      }else{
@@ -374,10 +369,19 @@ public class Keretrendszer {
                  System.out.println("Adja meg a játék stílusát!");
              }
         } while (stilus.length() == 0);
+         
+         String leiras = "";
+         do {       
+             System.out.print("Játék leírása: ");
+             leiras = scan.nextLine();
+             if(leiras.length() == 0){
+                 System.out.println("Adja meg a játék leírását!");
+             }
+        } while (leiras.length() == 0);
 
         int korhatar = szamBekert("Korhatár");
         int ar = szamBekert("Ár");
-        this.bolt.ujJatek(nev, stilus, korhatar, ar);
+        this.bolt.ujJatek(nev, stilus, korhatar, ar,leiras);
     }
    
     
