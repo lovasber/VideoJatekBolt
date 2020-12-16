@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,12 +22,10 @@ public class FelhasznaloTarolo {
         
 
     
-    public boolean ban(String fnev){
-        boolean letezoFelhasznaloE = false;
+    public boolean ban(String fnev){        
         int index = -1;
         for (int i=0; i < felhasznalok.size(); i++) {
-            if(felhasznalok.get(i).getFelhasznaloNev().equals(fnev)){
-                letezoFelhasznaloE = true; 
+            if(felhasznalok.get(i).getFelhasznaloNev().equals(fnev)){                
                 index = i;
             }
         }
@@ -42,12 +39,10 @@ public class FelhasznaloTarolo {
     
     
     
-     public boolean unban(String fnev){
-       boolean letezoFelhasznaloE = false;
+     public boolean unban(String fnev){       
         int index = -1;
         for (int i=0; i < felhasznalok.size(); i++) {
-            if(felhasznalok.get(i).getFelhasznaloNev().equals(fnev)){
-                letezoFelhasznaloE = true; 
+            if(felhasznalok.get(i).getFelhasznaloNev().equals(fnev)){                
                 index = i;
             }
         }
@@ -61,14 +56,13 @@ public class FelhasznaloTarolo {
     }
     
     public void felhasznalokKilistazas(){
+        
         int sorszam = 1;
         if(this.felhasznalok.size()<0){
             System.out.println("Nincs felhasználó az adatbázisban");
         }else{
             for(Felhasznalo felh : this.felhasznalok){
-            //System.out.println(felh);
-            
-            System.out.println(sorszam+". "+felh);//.getFelhasznaloNev());//véglegesnél csak a felhasználó nevet irja ki
+            System.out.println(sorszam+". "+felh);
             sorszam++;
             }
         }
