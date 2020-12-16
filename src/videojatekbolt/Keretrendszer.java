@@ -267,7 +267,6 @@ public class Keretrendszer {
             cvc = scan.nextLine();
         } while (cvc.length() != 3 || !cvc.matches("[0-9]+"));
 
-
         this.belepettFelhasznalo.penzfeltoltes(osszeg);
         System.out.println("Sikeres pénzfeltöltés! Jelenlegi egyenlege: " + belepettFelhasznalo.getEgyenleg());
         
