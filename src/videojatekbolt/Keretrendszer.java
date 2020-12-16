@@ -139,7 +139,7 @@ public class Keretrendszer {
                     break;
                 case 6 : //jatekok kezelese
                     if(this.belepettFelhasznalo.isAdmin()){
-
+                         jatekokKezeleseMain();
                      }else{
                         System.out.println("Hibás menüpnt");
                     }
@@ -239,6 +239,7 @@ public class Keretrendszer {
         int lejaratiDatumEv;
         int cvc;
         do{
+            System.out.println("Bankkártya száma: ");
             bankkartyaSzam = scan.nextLine();
             lejaratiDatumHonap = szamBekert("Lejárati dátum hónapja");
             lejaratiDatumEv = szamBekert("Lejárati dátum éve");
@@ -306,7 +307,65 @@ public class Keretrendszer {
         } while (opcio != 0);
         
     }
-    
+
+    private void jatekokKezeleseMain() {
+        int opcio =  -1;
+        do {            
+            System.out.println("1. Minden játék kilistázása");
+            System.out.println("2. Új játék létrehozása");
+            System.out.println("3. Játék törlése");
+            System.out.println("0. Vissza");
+            System.out.println();
+            opcio  = szamBekert("Menüpont sorszáma");
+            switch(opcio){
+                case 1://jatekok listazasa
+                    this.bolt.jatekokKilistazasa();
+                break;
+                case 2://uj jatek letrehozasa
+                    ujJatekMain();                    
+                break;
+                case 3://uj jatek módosítása
+                    this.bolt.jatekokKilistazasa();
+                    int jatekSorszam = -1;
+                    do {                        
+                        jatekSorszam = szamBekert("Törölni kívánt játék sorszáma");
+                    } while (!(jatekSorszam>0 && jatekSorszam < bolt.getJatekok().size()));
+                    this.bolt.jatekTorles(jatekSorszam);
+                break;
+                case 0:
+                    System.out.println();
+                break;
+            }
+        } while (opcio != 0);
+        
+        
+    }   
+
+    private void ujJatekMain() {
+        Scanner scan = new Scanner(System.in);                    
+        String nev;
+        do {         
+            System.out.print("Játék neve: ");
+             nev = scan.nextLine();
+             if(nev.length() == 0){
+                 System.out.println("Adja meg a játék nevét!");
+             }
+        } while (nev.length() == 0);
+
+
+        String stilus = "";
+         do {       
+             System.out.print("Játék stílusa: ");
+             stilus = scan.nextLine();
+             if(stilus.length() == 0){
+                 System.out.println("Adja meg a játék stílusát!");
+             }
+        } while (stilus.length() == 0);
+
+        int korhatar = szamBekert("Korhatár");
+        int ar = szamBekert("Ár");
+        this.bolt.ujJatek(nev, stilus, korhatar, ar);
+    }
    
     
 }

@@ -7,8 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Scanner;
 
 public class Bolt {
 
@@ -23,17 +22,16 @@ public class Bolt {
         return this.jatekok.get(index);
     }
     
-    public void ujJatek(){
-        
+    public void ujJatek(String nev,String stilus,int korhatar,int ar){
+        Jatek ujJatek = new Jatek(nev, stilus, korhatar, ar);
+        this.jatekok.add(ujJatek);
     }
     
-    public void jatekTorles(){
-        
+    public void jatekTorles(int index){
+        this.jatekok.remove(index);
     }
     
-    public void jatekModositas(){
-        
-    }
+
     
     public void jatekokKilistazasa(){
         int i = 1;
@@ -64,8 +62,5 @@ public class Bolt {
     public List<Jatek> getJatekok() {
         return jatekok;
     }
-    
-    
-    
     
 }

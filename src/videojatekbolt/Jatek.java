@@ -1,8 +1,5 @@
 package videojatekbolt;
 
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +15,7 @@ class Jatek {
         this.nev = nev;
         this.stilus = stilus;
         this.korhatar = korhatar;
-        this.ar = ar;
+        this.ar = ar;  
     }
     
     public Jatek(String nev, String stilus, int korhatar, int ar,String leiras,int jatszottOrak) {
