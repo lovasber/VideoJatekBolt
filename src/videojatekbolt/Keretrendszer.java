@@ -21,9 +21,9 @@ public class Keretrendszer {
     
     public static void main(String[] args) {
         Keretrendszer keretrendszer =  new Keretrendszer();
-        keretrendszer.start();
-        
+        keretrendszer.start();        
         keretrendszer.save();
+        //int a = keretrendszer.szamBekert("Index");
     }
      
     private void belepes() {
@@ -73,43 +73,34 @@ public class Keretrendszer {
         menuPontFuttatas();
     }
     
+    private void ujJatekVasarlas(){
+        //játékok kilistázása
+        bolt.jatekokKilistazasa();
+        //kiválasztás
+        int jatekID = szamBekert("Játék sorszáma");
+        //létezik e a játék? jó e az id?
+
+        jatekID--;
+        Jatek kivalasztottJatek = this.bolt.getJatek(jatekID);
+        if(kivalasztottJatek.getAr() >= belepettFelhasznalo.getEgyenleg()){
+            System.out.println("Nincs elegendő összeg az egyenlegén. A tranzakció nem hajtható végre");
+        }else{
+            belepettFelhasznalo.getMegvasaroltJatekok().add(kivalasztottJatek);
+            belepettFelhasznalo.setEgyenleg(belepettFelhasznalo.getEgyenleg() - kivalasztottJatek.getAr());
+            System.out.println("Sikeres tranzakció!");
+        }
+    }
+    
+    
     private void menuPontFuttatas(){
         Scanner scan = new Scanner(System.in);
         int opcio = -1;
-        while(opcio == -1){
-            try {
-                opcio = Integer.parseInt(scan.nextLine());
-            } catch (Exception e) {
-                System.out.println("Nem szám!");
-            }
-            
-        }
+        while(opcio != 0){
+            opcio = szamBekert("Menüpont sorszáma");
+        
         switch(opcio){
             case 1 : //ujJatek vasarlas
-                
-                    //játékok kilistázása
-                    bolt.jatekokKilistazasa();
-                    //kiválasztás
-                    int jatekID = -1;
-                    while(jatekID == -1){
-                        try {
-                            jatekID = Integer.parseInt(scan.nextLine());
-                        } catch (Exception e) {
-                            System.out.println("Nem szám!");
-                        }
-                    }
-                    //létezik e a játék? jó e az id?
-                    
-                    jatekID--;
-                    Jatek kivalasztottJatek = this.bolt.getJatek(jatekID);
-                    if(kivalasztottJatek.getAr() >= belepettFelhasznalo.getEgyenleg()){
-                        System.out.println("Nincs elegendő összeg az egyenlegén. A tranzakció nem hajtható végre");
-                    }else{
-                        belepettFelhasznalo.getMegvasaroltJatekok().add(kivalasztottJatek);
-                        belepettFelhasznalo.setEgyenleg(belepettFelhasznalo.getEgyenleg() - kivalasztottJatek.getAr());
-                        System.out.println("Sikeres tranzakció!");
-                    }
-
+                ujJatekVasarlas();
                 break;
             case 2 : //jatekaimKezelese
                 break;
@@ -134,6 +125,7 @@ public class Keretrendszer {
             default:
                 System.out.println("Hibás menüpnt");
                 break;
+            }
         }
     }
     
@@ -147,19 +139,8 @@ public class Keretrendszer {
         System.out.println("1 - Igen, Belépés");
         System.out.println("2 - Nincs, Regisztráció");
         System.out.println("0 - Kilépés");
-        System.out.print("Kérem adja meg a menüpont sorszámát: ");
-        Scanner scan = new Scanner(System.in);
-        int felhasznaloInput = -1;
-        try {
-            while(felhasznaloInput == -1){
-                String sfelhasznaloInput = scan.nextLine(); 
-                felhasznaloInput = Integer.parseInt(sfelhasznaloInput);
-            }
-        } catch (Exception ex) {
-            System.out.println("Nem szám!");
-            System.out.println();
-            start();
-        }
+        
+        int felhasznaloInput = szamBekert("Kérem adja meg a menüpont sorszámát");
         
         switch(felhasznaloInput){
             case 0:
@@ -170,6 +151,8 @@ public class Keretrendszer {
                 break;
             case 2:
                 felhasznaloTarolo.regisztracio();
+                //TODO:
+               //this.belepettFelhasznalo.penzfeltoltes(felhasznaloInput);
                 start();
                 break;
             default:
@@ -198,4 +181,20 @@ public class Keretrendszer {
             Logger.getLogger(Keretrendszer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    int szamBekert(String uzenet){                
+        int beirtSzam = Integer.MIN_VALUE;
+        Scanner scan = new Scanner(System.in);
+        while( beirtSzam == Integer.MIN_VALUE){
+            try {
+                System.out.print(uzenet+": ");
+                beirtSzam =  Integer.parseInt(scan.nextLine());                
+            } catch (Exception e) {                
+                System.out.println("Nem szám!");
+                beirtSzam = Integer.MIN_VALUE;
+            }                                    
+        }        
+        return beirtSzam;
+    }
+    
 }
