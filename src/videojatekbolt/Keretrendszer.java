@@ -46,10 +46,15 @@ public class Keretrendszer {
                 if(i == this.felhasznaloTarolo.getFelhasznalok().size()){
                     System.out.println("Hibás felhasználónév vagy jelszó!");
                 }else{
-                    this.belepettFelhasznalo =  this.felhasznaloTarolo.getFelhasznalok().get(i);
-                    System.out.println("Sikeres belépés, üdvözöljük "+this.felhasznaloTarolo.getFelhasznalok().get(i).getFelhasznaloNev() + "!");
-                    sikeresBelepesE = true;
-                    menuPontok();
+                    if(this.felhasznaloTarolo.getFelhasznalok().get(i).isBanned()){
+                        System.out.println("Sikertelen belépés, ez a fiók bannolva lett.");
+                    }else{
+                        this.belepettFelhasznalo =  this.felhasznaloTarolo.getFelhasznalok().get(i);
+                        System.out.println("Sikeres belépés, üdvözöljük "+this.felhasznaloTarolo.getFelhasznalok().get(i).getFelhasznaloNev() + "!");
+                        sikeresBelepesE = true;
+                        menuPontok();
+                    }
+                    
                 }
             } catch (Exception e) {
                 System.out.println(e.getLocalizedMessage());
@@ -125,9 +130,9 @@ public class Keretrendszer {
                     break;
                 case 4 : //profil szerkesztées
                     break;
-                case 5 ://felhsaznalok kezelese
+                case 5 ://felhasznalok kezelese
                      if(this.belepettFelhasznalo.isAdmin()){
-
+                         felhasznalokKezeleseMain();
                      }else{
                         System.out.println("Hibás menüpnt");
                     }
@@ -154,14 +159,16 @@ public class Keretrendszer {
     }
     
     private void start(){
+       
+         int felhasznaloInput = -1;
+        
+        while(felhasznaloInput != 0){
         System.out.println("Üdvözüljük!");
         System.out.println("Van már létező profilja?");
         System.out.println("1 - Igen, Belépés");
         System.out.println("2 - Nincs, Regisztráció");
-        System.out.println("0 - Kilépés");
-         int felhasznaloInput = -1;
+        System.out.println("0 - Kilépés\n");
         
-        while(felhasznaloInput != 0){
             felhasznaloInput = szamBekert("Kérem adja meg a menüpont sorszámát");
             switch(felhasznaloInput){
             case 0:
@@ -246,9 +253,6 @@ public class Keretrendszer {
     }
 
     private void jatekKezelesMain() {
-        //TODO
-        //kilistázás
-        //játszás
         this.belepettFelhasznalo.jatekokKilistazasa();
         int valasztottJatekIndex = -1;
         do {            
@@ -259,5 +263,50 @@ public class Keretrendszer {
         this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).jatszas(jatszaniKivantOraSzam);
         
     }
+
+    private void felhasznalokKezeleseMain() {
+        System.out.println("Felhasználók kezelése");
+        Scanner scan = new Scanner(System.in);
+        int opcio = -1;
+        do {            
+            System.out.println("1. Felhasználók kilistázása");
+            System.out.println("2. Felhasználó bannolása");
+            System.out.println("3. Felhasználó Vissza aktiválása");
+            System.out.println("0. Vissza");
+            opcio = szamBekert("Menüpont sorszáma");
+            
+            switch(opcio){
+                case 1:
+                    this.felhasznaloTarolo.felhasznalokKilistazas();
+                break;
+                case 2:
+                    this.felhasznaloTarolo.felhasznalokKilistazas();
+                    System.out.println();
+
+                    String banFnev = "";
+                    do {        
+                        System.out.print("Bannolni kívánt felhasználó felhasználóneve: ");
+                        banFnev = scan.nextLine();
+                    } while ( !this.felhasznaloTarolo.ban(banFnev));                   
+                break;
+                case 3:
+                   this.felhasznaloTarolo.felhasznalokKilistazas();
+                    System.out.println();
+                   String unbanFnev = "";
+                    do {        
+                        System.out.print("Aktiválni kívánt felhasználó felhasználóneve: ");
+                        unbanFnev = scan.nextLine();
+                    } while ( !this.felhasznaloTarolo.unban(unbanFnev));
+                break;
+                case 0:
+                    System.out.println();
+                break;
+                
+            }
+        } while (opcio != 0);
+        
+    }
+    
+   
     
 }

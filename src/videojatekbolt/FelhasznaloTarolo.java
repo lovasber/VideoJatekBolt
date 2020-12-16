@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +13,7 @@ import java.util.logging.Logger;
 
 public class FelhasznaloTarolo {
     
-    private List<Felhasznalo> felhasznalok;
+    private final List<Felhasznalo> felhasznalok;
 
     public FelhasznaloTarolo() {
         felhasznalok = new ArrayList();
@@ -82,15 +80,56 @@ public class FelhasznaloTarolo {
         this.felhasznalok.add(new Felhasznalo(fnev, jelszo,"", 0));
     }
     
-    public void ban(Felhasznalo jatekos){
-        jatekos.setBan(true);
+    public boolean ban(String fnev){
+        boolean letezoFelhasznaloE = false;
+        int index = -1;
+        for (int i=0; i < felhasznalok.size(); i++) {
+            if(felhasznalok.get(i).getFelhasznaloNev().equals(fnev)){
+                letezoFelhasznaloE = true; 
+                index = i;
+            }
+        }
+        
+        if(index != -1){
+            this.felhasznalok.get(index).setBan(true);
+            return true;
+        }
+        return false;        
+    }
+    
+    
+    
+     public boolean unban(String fnev){
+       boolean letezoFelhasznaloE = false;
+        int index = -1;
+        for (int i=0; i < felhasznalok.size(); i++) {
+            if(felhasznalok.get(i).getFelhasznaloNev().equals(fnev)){
+                letezoFelhasznaloE = true; 
+                index = i;
+            }
+        }
+        if(index != -1){
+            this.felhasznalok.get(index).setBan(false);
+            return true;
+        }else{
+            System.out.println("Nem létezik ilyen felhasználónév");
+        }
+        return false; 
     }
     
     public void felhasznalokKilistazas(){
-        for(Felhasznalo felh : this.felhasznalok){
-            System.out.println(felh);
-            //System.out.println(felh.getFelhasznaloNev());//véglegesnél csak a felhasználó nevet irja ki
+        int sorszam = 1;
+        if(this.felhasznalok.size()<0){
+            System.out.println("Nincs felhasználó az adatbázisban");
+        }else{
+            for(Felhasznalo felh : this.felhasznalok){
+            //System.out.println(felh);
+            
+            System.out.println(sorszam+". "+felh);//.getFelhasznaloNev());//véglegesnél csak a felhasználó nevet irja ki
+            sorszam++;
+            }
         }
+        
     }
     
     public Felhasznalo getFelhasznalo(int index){
@@ -115,8 +154,7 @@ public class FelhasznaloTarolo {
                     String[] jatekokSpl = spl[7].split(",");
                     
                     for(String jatek: jatekokSpl){
-                        String[] jatekAdatokSpl = jatek.split("\\*");
-                        //new Jatek(sor, sor, 0, 0, sor, 0)
+                        String[] jatekAdatokSpl = jatek.split("\\*");                        
                         vasaroltJatekok.add(new Jatek(jatekAdatokSpl[0], jatekAdatokSpl[1], Integer.parseInt(jatekAdatokSpl[2]), Integer.parseInt(jatekAdatokSpl[3]),jatekAdatokSpl[4],Integer.parseInt(jatekAdatokSpl[5])));
                     }
                 }
