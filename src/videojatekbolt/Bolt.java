@@ -49,7 +49,7 @@ public class Bolt {
             br.readLine();
             while(br.ready()){
                 String sor = br.readLine();
-                String[] spl = sor.split(";");
+                String[] spl = sor.split("\\*");
                 this.jatekok.add(new Jatek(spl[0], spl[1], Integer.parseInt(spl[2]), Integer.parseInt(spl[3]), spl[4], Integer.parseInt(spl[5])));
                 
             }

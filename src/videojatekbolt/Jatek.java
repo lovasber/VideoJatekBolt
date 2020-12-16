@@ -57,7 +57,7 @@ class Jatek {
     }
 
     public String fileWriteString() {
-        return  nev + ";" + stilus + ";" + korhatar + ";" + ar + ";" + leiras + ";" + jatszottOrak + "\n";
+        return  nev + "*" + stilus + "*" + korhatar + "*" + ar + "*" + leiras + "*" + jatszottOrak;
     }
 
     @Override

@@ -22,8 +22,7 @@ public class Keretrendszer {
     public static void main(String[] args) {
         Keretrendszer keretrendszer =  new Keretrendszer();
         keretrendszer.start();        
-        keretrendszer.save();
-        //int a = keretrendszer.szamBekert("Index");
+        keretrendszer.save();        
     }
      
     private void belepes() {
@@ -73,59 +72,80 @@ public class Keretrendszer {
         menuPontFuttatas();
     }
     
-    private void ujJatekVasarlas(){
+    private void ujJatekVasarlasMain(){
         //játékok kilistázása
         bolt.jatekokKilistazasa();
         //kiválasztás
-        int jatekID = szamBekert("Játék sorszáma");
-        //létezik e a játék? jó e az id?
-
-        jatekID--;
-        Jatek kivalasztottJatek = this.bolt.getJatek(jatekID);
-        if(kivalasztottJatek.getAr() >= belepettFelhasznalo.getEgyenleg()){
-            System.out.println("Nincs elegendő összeg az egyenlegén. A tranzakció nem hajtható végre");
-        }else{
-            belepettFelhasznalo.getMegvasaroltJatekok().add(kivalasztottJatek);
-            belepettFelhasznalo.setEgyenleg(belepettFelhasznalo.getEgyenleg() - kivalasztottJatek.getAr());
-            System.out.println("Sikeres tranzakció!");
+        int jatekID = -1;
+        while(jatekID < 0 && jatekID>= bolt.getJatekok().size() ){
+            jatekID = szamBekert("Játék sorszáma");
+            if(jatekID < 0 && jatekID>= bolt.getJatekok().size()){
+                System.out.println("Rossz sorszám"); 
+            }
         }
+                        
+        jatekID--;
+        
+        Jatek kivalasztottJatek = this.bolt.getJatek(jatekID);
+        boolean megvanEaFelhasznalonak = false;
+        for(Jatek jatek : belepettFelhasznalo.getMegvasaroltJatekok()){
+            if(jatek.getNev().equals(kivalasztottJatek.getNev())){
+                megvanEaFelhasznalonak = true;
+            }
+        }
+        if(!megvanEaFelhasznalonak){
+             if(kivalasztottJatek.getAr() >= belepettFelhasznalo.getEgyenleg()){
+            System.out.println("Nincs elegendő összeg az egyenlegén. A tranzakció nem hajtható végre");
+            }else{
+                belepettFelhasznalo.getMegvasaroltJatekok().add(kivalasztottJatek);
+                belepettFelhasznalo.setEgyenleg(belepettFelhasznalo.getEgyenleg() - kivalasztottJatek.getAr());
+                System.out.println("Sikeres tranzakció!");
+            }
+        }else{
+            System.out.println("Ez a játék már szerepel a felhasználó játékai között!");
+        }
+               
     }
     
     
-    private void menuPontFuttatas(){
-        Scanner scan = new Scanner(System.in);
+    private void menuPontFuttatas(){        
         int opcio = -1;
         while(opcio != 0){
             opcio = szamBekert("Menüpont sorszáma");
         
-        switch(opcio){
-            case 1 : //ujJatek vasarlas
-                ujJatekVasarlas();
-                break;
-            case 2 : //jatekaimKezelese
-                break;
-            case 3 : //penzfeltoltes
-                break;
-            case 4 : //profil szerkesztées
-                break;
-            case 5 ://felhsaznalok kezelese
-                 if(this.belepettFelhasznalo.isAdmin()){
-                 
-                 }else{
+            switch(opcio){
+                case 1 : //ujJatek vasarlas
+                    ujJatekVasarlasMain();
+                    break;
+                case 2 : //jatekaimKezelese
+                    jatekKezelesMain();
+                    break;
+                case 3 : //penzfeltoltes
+                    penzfeltoltesMain();
+                    break;
+                case 4 : //profil szerkesztées
+                    break;
+                case 5 ://felhsaznalok kezelese
+                     if(this.belepettFelhasznalo.isAdmin()){
+
+                     }else{
+                        System.out.println("Hibás menüpnt");
+                    }
+                    break;
+                case 6 : //jatekok kezelese
+                    if(this.belepettFelhasznalo.isAdmin()){
+
+                     }else{
+                        System.out.println("Hibás menüpnt");
+                    }
+                    break;
+                case 0 : //ujJatek vasarlas
+                    System.out.println("Kilépés");
+                    break;
+                default:
                     System.out.println("Hibás menüpnt");
+                    break;
                 }
-                break;
-            case 6 : //jatekok kezelese
-                if(this.belepettFelhasznalo.isAdmin()){
-                 
-                 }else{
-                    System.out.println("Hibás menüpnt");
-                }
-                break;
-            default:
-                System.out.println("Hibás menüpnt");
-                break;
-            }
         }
     }
     
@@ -139,10 +159,11 @@ public class Keretrendszer {
         System.out.println("1 - Igen, Belépés");
         System.out.println("2 - Nincs, Regisztráció");
         System.out.println("0 - Kilépés");
+         int felhasznaloInput = -1;
         
-        int felhasznaloInput = szamBekert("Kérem adja meg a menüpont sorszámát");
-        
-        switch(felhasznaloInput){
+        while(felhasznaloInput != 0){
+            felhasznaloInput = szamBekert("Kérem adja meg a menüpont sorszámát");
+            switch(felhasznaloInput){
             case 0:
                 System.out.println("Viszlát!");
                 break;
@@ -151,15 +172,14 @@ public class Keretrendszer {
                 break;
             case 2:
                 felhasznaloTarolo.regisztracio();
-                //TODO:
-               //this.belepettFelhasznalo.penzfeltoltes(felhasznaloInput);
                 start();
+                felhasznaloInput = 0;
                 break;
             default:
                 System.out.println("Hibás bevitel!");
                 break;
+            }
         }
-        
     }
     
     private void save(){
@@ -167,14 +187,14 @@ public class Keretrendszer {
             FileWriter fwFelhasznalok = new FileWriter(new File("felhasznalok.txt"));
             fwFelhasznalok.write("felhasznalonev;jelszo;teljesNev;kor;egyenleg;admin;bannolt\n");
             for(Felhasznalo fh : this.felhasznaloTarolo.getFelhasznalok()){
-                fwFelhasznalok.write(fh.fileWriteString());
+                fwFelhasznalok.write(fh.fileWriteString()+"\n");
             }
             fwFelhasznalok.close();
             
             FileWriter fwJatekok = new FileWriter(new File("jatekok.txt"));
             fwJatekok.write("nev;stilus;korhatar;ar;leiras;jatszottOrak\n");
             for (Jatek jatek : this.bolt.getJatekok()) {
-                fwJatekok.write(jatek.fileWriteString());
+                fwJatekok.write(jatek.fileWriteString()+"\n");
             }
             fwJatekok.close();
         } catch (IOException ex) {
@@ -182,7 +202,7 @@ public class Keretrendszer {
         }
     }
     
-    int szamBekert(String uzenet){                
+    private int szamBekert(String uzenet){                
         int beirtSzam = Integer.MIN_VALUE;
         Scanner scan = new Scanner(System.in);
         while( beirtSzam == Integer.MIN_VALUE){
@@ -195,6 +215,42 @@ public class Keretrendszer {
             }                                    
         }        
         return beirtSzam;
+    }
+
+    private void penzfeltoltesMain() {
+        System.out.println("Pénzfeltöltés");
+        int osszeg = -1;
+        while(osszeg < 0){
+            osszeg = szamBekert("Írja be a feltölteni kívánt összeget"); 
+            if(osszeg < 0){
+                System.out.println("Negatív összeg, kérem adja meg újra!");
+            }
+        }
+        Scanner scan = new Scanner(System.in);
+        String bankkartyaSzam;
+        int lejaratiDatumHonap;
+        int lejaratiDatumEv;
+        int cvc;
+        do{
+            bankkartyaSzam = scan.nextLine();
+            lejaratiDatumHonap = szamBekert("Lejárati dátum hónapja");
+            lejaratiDatumEv = szamBekert("Lejárati dátum éve");
+            cvc = szamBekert("CVC kód");
+            if(bankkartyaSzam.matches("[0-9]+") || lejaratiDatumHonap < 0 || lejaratiDatumEv < 0 || cvc < 0){
+                System.out.println("Hibás adatok");
+            }
+        }while(bankkartyaSzam.matches("[0-9]+") || lejaratiDatumHonap < 0 || lejaratiDatumEv < 0 || cvc < 0);
+        this.belepettFelhasznalo.penzfeltoltes(osszeg);
+        System.out.println("Sikeres pénzfeltöltés! Jelenlegi egyenlege: " + belepettFelhasznalo.getEgyenleg());
+        
+    }
+
+    private void jatekKezelesMain() {
+        //TODO
+        //kilistázás
+        //játszás
+        
+        
     }
     
 }

@@ -21,7 +21,7 @@ class Felhasznalo {
         this.megvasaroltJatekok = new ArrayList();
     }
 
-    public Felhasznalo(String felhasznalonev, String jelszo, String teljesNev, int kor,int egyenleg, boolean adminE, boolean bannoltE) {
+    public Felhasznalo(String felhasznalonev, String jelszo, String teljesNev, int kor,int egyenleg, boolean adminE, boolean bannoltE, List<Jatek> megvasaroltJatekok) {
         this.felhasznaloNev = felhasznalonev;
         this.jelszo = jelszo;
         this.teljesNev = teljesNev;
@@ -29,9 +29,17 @@ class Felhasznalo {
         this.egyenleg = egyenleg;
         this.admin = adminE;
         this.bannolt = bannoltE;
-        this.megvasaroltJatekok = new ArrayList();
+        this.megvasaroltJatekok = megvasaroltJatekok;
     }
     
+    
+    public void jatekokKilistazasa(){
+        int index = 1;
+        for (int i = 0; i < this.megvasaroltJatekok.size(); i++) {
+            System.out.println(index +". "+this.megvasaroltJatekok.get(i));
+            index++;
+        }
+    }
       
     
     public String getFelhasznaloNev() {
@@ -67,7 +75,7 @@ class Felhasznalo {
     }
     
     public void penzfeltoltes(int osszeg){
-       
+        this.egyenleg += osszeg;
     }
     
     public void jatszas(Jatek jatek){
@@ -79,7 +87,16 @@ class Felhasznalo {
     }
     
     public String fileWriteString(){
-        return this.felhasznaloNev+";"+this.jelszo+";"+this.teljesNev+";"+this.kor+";"+this.egyenleg+";"+this.admin+";"+this.bannolt+"\n";
+        String ret = this.felhasznaloNev+";"+this.jelszo+";"+this.teljesNev+";"+this.kor+";"+this.egyenleg+";"+this.admin+";"+this.bannolt+";";
+        for(int i = 0; i< this.megvasaroltJatekok.size(); i++){
+            if(i < this.megvasaroltJatekok.size()-1){
+                ret += this.megvasaroltJatekok.get(i).fileWriteString()+",";
+            }else{
+                ret += this.megvasaroltJatekok.get(i).fileWriteString();
+            }            
+        }
+
+        return ret;
     }
     
     @Override
