@@ -8,4 +8,4 @@ Fall guys*Arcade*12*8000*Mászkálós akadályokon átmászós játék*0
 Fall guys*Arcade*12*8000*Mászkálós akadályokon átmászós játék*0
 Fall guys*Arcade*12*8000*Mászkálós akadályokon átmászós játék*0
 Fall guys*Arcade*12*8000*Mászkálós akadályokon átmászós játék*0
-snake*ügyességi*0*300**0
+snake*ügyességi*0*300**3

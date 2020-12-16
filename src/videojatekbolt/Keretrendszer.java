@@ -82,7 +82,7 @@ public class Keretrendszer {
         bolt.jatekokKilistazasa();
         //kiválasztás
         int jatekID = -1;
-        while(jatekID < 0 && jatekID>= bolt.getJatekok().size() ){
+        while(!(jatekID > 0 && jatekID <= bolt.getJatekok().size() )){
             jatekID = szamBekert("Játék sorszáma");
             if(jatekID < 0 && jatekID>= bolt.getJatekok().size()){
                 System.out.println("Rossz sorszám");                
@@ -239,15 +239,15 @@ public class Keretrendszer {
         int lejaratiDatumEv;
         int cvc;
         do{
-            System.out.println("Bankkártya száma: ");
+            System.out.print("Bankkártya száma: ");
             bankkartyaSzam = scan.nextLine();
             lejaratiDatumHonap = szamBekert("Lejárati dátum hónapja");
             lejaratiDatumEv = szamBekert("Lejárati dátum éve");
             cvc = szamBekert("CVC kód");
-            if(bankkartyaSzam.matches("[0-9]+") || lejaratiDatumHonap < 0 || lejaratiDatumEv < 0 || cvc < 0){
+            if(!(bankkartyaSzam.matches("[0-9]+") || lejaratiDatumHonap < 0 || lejaratiDatumEv < 0 || cvc < 0)){
                 System.out.println("Hibás adatok");
             }
-        }while(bankkartyaSzam.matches("[0-9]+") || lejaratiDatumHonap < 0 || lejaratiDatumEv < 0 || cvc < 0);
+        }while(!(bankkartyaSzam.matches("[0-9]+") || lejaratiDatumHonap < 0 || lejaratiDatumEv < 0 || cvc < 0));
         this.belepettFelhasznalo.penzfeltoltes(osszeg);
         System.out.println("Sikeres pénzfeltöltés! Jelenlegi egyenlege: " + belepettFelhasznalo.getEgyenleg());
         
