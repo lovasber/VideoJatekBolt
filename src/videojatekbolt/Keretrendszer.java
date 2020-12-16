@@ -116,6 +116,7 @@ public class Keretrendszer {
     private void menuPontFuttatas(){        
         int opcio = -1;
         while(opcio != 0){
+            menuPontok();
             opcio = szamBekert("Menüpont sorszáma");
         
             switch(opcio){
@@ -150,7 +151,7 @@ public class Keretrendszer {
                 default:
                     System.out.println("Hibás menüpnt");
                     break;
-                }
+            }
         }
     }
     
