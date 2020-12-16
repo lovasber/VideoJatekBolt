@@ -250,7 +250,11 @@ public class Keretrendszer {
         //kilistázás
         //játszás
         this.belepettFelhasznalo.jatekokKilistazasa();
-        int valasztottJatekIndex = szamBekert("Játék sorszáma");
+        int valasztottJatekIndex = -1;
+        do {            
+            valasztottJatekIndex = szamBekert("Játék sorszáma");
+        } while (valasztottJatekIndex > belepettFelhasznalo.getMegvasaroltJatekok().size() || valasztottJatekIndex <= 0);
+        System.out.println("A választott játék: "+this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).getNev());
         int jatszaniKivantOraSzam = szamBekert("Ennyi órát szeretnék játszani");
         this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).jatszas(jatszaniKivantOraSzam);
         

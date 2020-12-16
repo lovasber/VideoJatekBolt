@@ -1,5 +1,5 @@
 felhasznalonev;jelszo;teljesNev;kor;egyenleg;admin;bannolt
-lovas;1234;Lovas Bertalan;23;500;true;false;Counter-Strike*FPS*16*3500*FPS lövöldözős játék*3,Fall guys*Arcade*12*8000*Mászkálós akadályokon átmászós játék*0
+lovas;1234;Lovas Bertalan;23;500;true;false;Counter-Strike*FPS*16*3500*FPS lövöldözős játék*6,Fall guys*Arcade*12*8000*Mászkálós akadályokon átmászós játék*0
 proba;123;;0;0;false;false;Fall guys*Arcade*12*8000*Mászkálós akadályokon átmászós játék*0
 jj;123;;0;0;false;false;Fall guys*Arcade*12*8000*Mászkálós akadályokon átmászós játék*0,Pac-Man*Arcade*0*500*Közismert Pac-Man játék*0
 admin;123;;0;0;false;false;Counter-Strike*FPS*16*3500*FPS lövöldözős játék*0
