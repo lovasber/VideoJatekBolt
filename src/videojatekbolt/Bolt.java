@@ -22,8 +22,9 @@ public class Bolt {
         return this.jatekok.get(index);
     }
     
-    public void ujJatek(String nev,String stilus,int korhatar,int ar){
-        Jatek ujJatek = new Jatek(nev, stilus, korhatar, ar);
+    
+    public void ujJatek(String nev,String stilus,int korhatar,int ar, String leiras){        
+        Jatek ujJatek = new Jatek(nev, stilus, korhatar, ar,leiras);
         this.jatekok.add(ujJatek);
     }
     

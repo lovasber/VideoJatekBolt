@@ -21,64 +21,7 @@ public class FelhasznaloTarolo {
     }
     
         
-    public void regisztracio(){
-        Scanner scan  =  new Scanner(System.in);
-        System.out.println("Regisztráció");
-        String fnev = "?";
-        
-        boolean letezikIlyenNevuFelhasznalo = true;
-        
-        while(letezikIlyenNevuFelhasznalo){
-            //letezikIlyenNevuFelhasznalo = false;
-            System.out.print("Felhasználó név: ");
-            fnev = scan.nextLine();
-            int i = 0;
-            while(i < this.felhasznalok.size() && !fnev.equals(this.felhasznalok.get(i).getFelhasznaloNev())){
-                i++;
-            }
-            if(i == this.felhasznalok.size()){
-                letezikIlyenNevuFelhasznalo = false;
-            }else{
-                System.out.println("Ez a felhasználónév már foglalt!");
-            }
-        }
 
-        String jelszo = "";
-        String megerosit = "megerosites";
- 
-        int kor = -1;
-        while(!jelszo.equals(megerosit)){
-            System.out.print("Jelszó: ");
-            jelszo = scan.nextLine();
-            System.out.print("Jelszó mégegyszer: ");
-            megerosit = scan.nextLine();
-            if(!jelszo.equals(megerosit)){
-                System.out.println("A két jelszó nem egyezik meg!");
-            }
-        }
-        /*
-        try {
-          */  
-        while(kor != -1){
-            System.out.println("Kor: ");
-            String sKor = scan.nextLine();
-            kor = Integer.parseInt(sKor);
-
-            if(kor == -1){
-                System.out.println("Nem szám!");
-            }
-            if(kor<0){
-                kor=10;
-            }
-        }
-        /*
-        }catch(ParseException ex){
-            System.out.println("Nem szám");
-        }*/
-        System.out.println("Sikeres regisztráció!");
-        
-        this.felhasznalok.add(new Felhasznalo(fnev, jelszo,"", 0));
-    }
     
     public boolean ban(String fnev){
         boolean letezoFelhasznaloE = false;

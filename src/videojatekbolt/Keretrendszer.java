@@ -48,17 +48,13 @@ public class Keretrendszer {
                     String regVagynem = "";
                     Scanner scan = new Scanner(System.in);
                     do {                      
-                        System.out.println("Szeretne regisztrálni? (y/n)");
+                        System.out.print("Szeretne regisztrálni? (y/n): ");
                         regVagynem = scan.nextLine();
                     } while (!(regVagynem.toLowerCase().equals("y") || regVagynem.toLowerCase().equals("n")));
-                    if(regVagynem.toLowerCase().equals("y")){
-                        //regisztráció megnyit
-                        felhasznaloTarolo.regisztracio();
-                        start();
-                    }else{
-                        
-                    }
-                            
+                    if(regVagynem.toLowerCase().equals("y")){                        
+                        regisztracio();                      
+                                              
+                    }                          
                     
                 }else{
                     if(this.felhasznaloTarolo.getFelhasznalok().get(i).isBanned()){
@@ -81,11 +77,11 @@ public class Keretrendszer {
         System.out.println("1 - Új játék vásárlása");
         System.out.println("2 - Játékaim kezelése");
         System.out.println("3 - Pénzfeltöltés");
-        System.out.println("4 - Saját profil szerkesztése");
+        
         
         if(this.belepettFelhasznalo.isAdmin()){
-            System.out.println("5 - Felhasználók kezelése");
-            System.out.println("6 - Játékok kezelése");
+            System.out.println("4 - Felhasználók kezelése");
+            System.out.println("5 - Játékok kezelése");
         }
         System.out.println("0 - Kilépés");                
     }
@@ -97,7 +93,7 @@ public class Keretrendszer {
         int jatekID = -1;
         while(!(jatekID > 0 && jatekID <= bolt.getJatekok().size() )){
             jatekID = szamBekert("Játék sorszáma");
-            if(jatekID < 0 && jatekID>= bolt.getJatekok().size()){
+            if((jatekID < 0 || jatekID > bolt.getJatekok().size() )){
                 System.out.println("Rossz sorszám");                
             }
         }
@@ -142,16 +138,14 @@ public class Keretrendszer {
                 case 3 : //penzfeltoltes
                     penzfeltoltesMain();
                     break;
-                case 4 : //profil szerkesztées
-                    break;
-                case 5 ://felhasznalok kezelese
+                case 4 ://felhasznalok kezelese
                      if(this.belepettFelhasznalo.isAdmin()){
                          felhasznalokKezeleseMain();
                      }else{
                         System.out.println("Hibás menüpnt");
                     }
                     break;
-                case 6 : //jatekok kezelese
+                case 5 : //jatekok kezelese
                     if(this.belepettFelhasznalo.isAdmin()){
                          jatekokKezeleseMain();
                      }else{
@@ -168,9 +162,6 @@ public class Keretrendszer {
         }
     }
     
-    private void inicializalas(){
-        
-    }
     
     private void start(){
        
@@ -191,7 +182,7 @@ public class Keretrendszer {
                 belepes();
                 break;
             case 2:
-                felhasznaloTarolo.regisztracio();
+                regisztracio();                
                 start();
                 felhasznaloInput = 0;
                 break;
@@ -238,29 +229,45 @@ public class Keretrendszer {
     }
 
     private void penzfeltoltesMain() {
-        System.out.println("Pénzfeltöltés");
+        System.out.println("Töltse fel egyenlegét!");
         int osszeg = -1;
-        while(osszeg < 0){
+        while(osszeg <= 0){
             osszeg = szamBekert("Írja be a feltölteni kívánt összeget"); 
             if(osszeg < 0){
                 System.out.println("Negatív összeg, kérem adja meg újra!");
             }
         }
         Scanner scan = new Scanner(System.in);
-        String bankkartyaSzam;
+        String bankkartyaSzam="";
+        String kartyaTulajNeve="";
         int lejaratiDatumHonap;
         int lejaratiDatumEv;
-        int cvc;
-        do{
+        String cvc="";
+
+        do {                
             System.out.print("Bankkártya száma: ");
-            bankkartyaSzam = scan.nextLine();
-            lejaratiDatumHonap = szamBekert("Lejárati dátum hónapja");
-            lejaratiDatumEv = szamBekert("Lejárati dátum éve");
-            cvc = szamBekert("CVC kód");
-            if(!(bankkartyaSzam.matches("[0-9]+") || lejaratiDatumHonap < 0 || lejaratiDatumEv < 0 || cvc < 0)){
-                System.out.println("Hibás adatok");
-            }
-        }while(!(bankkartyaSzam.matches("[0-9]+") || lejaratiDatumHonap < 0 || lejaratiDatumEv < 0 || cvc < 0));
+            bankkartyaSzam = scan.nextLine();  
+        } while (!(bankkartyaSzam.length()>0 && bankkartyaSzam.length()==16 && bankkartyaSzam.matches("[0-9]+") ));
+
+        do {                
+            System.out.print("Kártya tulajdonos neve: ");
+            kartyaTulajNeve = scan.nextLine();
+        } while (kartyaTulajNeve.length() == 0);
+
+        do {                
+            lejaratiDatumHonap = szamBekert("Lejárati dátum hónapja (hh)");
+        } while (!(lejaratiDatumHonap > 0 && lejaratiDatumHonap <= 12));
+
+        do {                
+            lejaratiDatumEv = szamBekert("Lejárati dátum éve (éé)");
+        } while (!(lejaratiDatumEv > 0 && lejaratiDatumEv <= 99));
+
+        do {                
+            System.out.print("3 jegyű CVC kód: ");
+            cvc = scan.nextLine();
+        } while (cvc.length() != 3 || !cvc.matches("[0-9]+"));
+
+
         this.belepettFelhasznalo.penzfeltoltes(osszeg);
         System.out.println("Sikeres pénzfeltöltés! Jelenlegi egyenlege: " + belepettFelhasznalo.getEgyenleg());
         
@@ -268,14 +275,25 @@ public class Keretrendszer {
 
     private void jatekKezelesMain() {
         this.belepettFelhasznalo.jatekokKilistazasa();
-        int valasztottJatekIndex = -1;
-        do {            
-            valasztottJatekIndex = szamBekert("Játék sorszáma");
-        } while (valasztottJatekIndex > belepettFelhasznalo.getMegvasaroltJatekok().size() || valasztottJatekIndex <= 0);
-        System.out.println("A választott játék: "+this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).getNev());
-        int jatszaniKivantOraSzam = szamBekert("Ennyi órát szeretnék játszani");
-        this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).jatszas(jatszaniKivantOraSzam);
+        int valasztottJatekIndex = -1;               
+           
         
+        String jatekVagyNem = "";
+        Scanner scan = new Scanner(System.in);
+        do {      
+            System.out.println("Szeretne-e játszani?(y/n): ");     
+            jatekVagyNem = scan.nextLine();
+        } while (!(jatekVagyNem.toLowerCase().equals("y") || jatekVagyNem.toLowerCase().equals("n")));
+        
+        if(jatekVagyNem.equals("y")){            
+            do {            
+                valasztottJatekIndex = szamBekert("Játék sorszáma");
+            } while (valasztottJatekIndex > belepettFelhasznalo.getMegvasaroltJatekok().size() || valasztottJatekIndex <= 0);
+         
+            System.out.println("A választott játék: "+this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).getNev());
+            int jatszaniKivantOraSzam = szamBekert("Ennyi órát szeretnék játszani");
+            this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).jatszas(jatszaniKivantOraSzam);
+        }                        
     }
 
     private void felhasznalokKezeleseMain() {
@@ -335,7 +353,7 @@ public class Keretrendszer {
                     this.bolt.jatekokKilistazasa();
                 break;
                 case 2://uj jatek letrehozasa
-                    ujJatekMain();                    
+                    ujJatekLetrehozMain();                    
                 break;
                 case 3://uj jatek módosítása
                     this.bolt.jatekokKilistazasa();
@@ -354,7 +372,7 @@ public class Keretrendszer {
         
     }   
 
-    private void ujJatekMain() {
+    private void ujJatekLetrehozMain() {
         Scanner scan = new Scanner(System.in);                    
         String nev;
         do {         
@@ -374,10 +392,78 @@ public class Keretrendszer {
                  System.out.println("Adja meg a játék stílusát!");
              }
         } while (stilus.length() == 0);
+         
+         String leiras = "";
+         do {       
+             System.out.print("Játék leírása: ");
+             leiras = scan.nextLine();
+             if(leiras.length() == 0){
+                 System.out.println("Adja meg a játék leírását!");
+             }
+        } while (leiras.length() == 0);
 
         int korhatar = szamBekert("Korhatár");
         int ar = szamBekert("Ár");
-        this.bolt.ujJatek(nev, stilus, korhatar, ar);
+        this.bolt.ujJatek(nev, stilus, korhatar, ar,leiras);
+    }
+    
+        public void regisztracio(){
+        Scanner scan  =  new Scanner(System.in);
+        System.out.println("Regisztráció");
+        String fnev = "?";
+        
+        boolean letezikIlyenNevuFelhasznalo = true;
+        
+        while(letezikIlyenNevuFelhasznalo){
+            //letezikIlyenNevuFelhasznalo = false;
+            System.out.print("Felhasználó név: ");
+            fnev = scan.nextLine();
+            int i = 0;
+            while(i < this.felhasznaloTarolo.getFelhasznalok().size() && !fnev.equals(this.felhasznaloTarolo.getFelhasznalok().get(i).getFelhasznaloNev())){
+                i++;
+            }
+            if(i == this.felhasznaloTarolo.getFelhasznalok().size()){
+                letezikIlyenNevuFelhasznalo = false;
+            }else{
+                System.out.println("Ez a felhasználónév már foglalt!");
+            }
+        }
+
+        String jelszo = "";
+        String megerosit = "megerosites";
+ 
+        int kor = -1;
+        while(!jelszo.equals(megerosit)){
+            System.out.print("Jelszó: ");
+            jelszo = scan.nextLine();
+            System.out.print("Jelszó mégegyszer: ");
+            megerosit = scan.nextLine();
+            if(!jelszo.equals(megerosit)){
+                System.out.println("A két jelszó nem egyezik meg!");
+            }
+        }
+
+        while(kor != -1){
+            System.out.println("Kor: ");
+            String sKor = scan.nextLine();
+            kor = Integer.parseInt(sKor);
+
+            if(kor == -1){
+                System.out.println("Nem szám!");
+            }
+            if(kor<0){
+                kor=10;
+            }
+        }
+        
+        
+       Felhasznalo ujFelhasznalo = new Felhasznalo(fnev, jelszo,"", 0);
+        this.belepettFelhasznalo = ujFelhasznalo;
+        penzfeltoltesMain();
+
+        System.out.println("Sikeres regisztráció!");
+        this.felhasznaloTarolo.getFelhasznalok().add(ujFelhasznalo);
+        menuPontFuttatas();
     }
    
     

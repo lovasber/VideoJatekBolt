@@ -34,11 +34,15 @@ class Felhasznalo {
     
     
     public void jatekokKilistazasa(){
-        int index = 1;
-        for (int i = 0; i < this.megvasaroltJatekok.size(); i++) {
-            System.out.println(index +". "+this.megvasaroltJatekok.get(i));
-            index++;
-        }
+        if(this.megvasaroltJatekok.isEmpty()){
+            System.out.println("Nincs játékos a listában!");
+        }else{
+            int index = 1;
+            for (int i = 0; i < this.megvasaroltJatekok.size(); i++) {
+                System.out.println(index +". "+this.megvasaroltJatekok.get(i));
+                index++;
+            }
+        }        
     }
       
     
