@@ -80,7 +80,7 @@ public class Keretrendszer {
         while(jatekID < 0 && jatekID>= bolt.getJatekok().size() ){
             jatekID = szamBekert("Játék sorszáma");
             if(jatekID < 0 && jatekID>= bolt.getJatekok().size()){
-                System.out.println("Rossz sorszám"); 
+                System.out.println("Rossz sorszám");                
             }
         }
                         
@@ -249,7 +249,10 @@ public class Keretrendszer {
         //TODO
         //kilistázás
         //játszás
-        
+        this.belepettFelhasznalo.jatekokKilistazasa();
+        int valasztottJatekIndex = szamBekert("Játék sorszáma");
+        int jatszaniKivantOraSzam = szamBekert("Ennyi órát szeretnék játszani");
+        this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).jatszas(jatszaniKivantOraSzam);
         
     }
     

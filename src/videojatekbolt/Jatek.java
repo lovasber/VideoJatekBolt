@@ -1,5 +1,11 @@
 package videojatekbolt;
 
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 class Jatek {
     private String nev;
     private String stilus;
@@ -64,12 +70,25 @@ class Jatek {
     public String toString() {
         return "Jatek{" + "nev=" + nev + ", stilus=" + stilus + ", korhatar=" + korhatar + ", ar=" + ar + ", leiras=" + leiras + ", jatszottOrak=" + jatszottOrak + '}';
     }
+
     
     
     
-    
-    
-    
-    
+    public void jatszas(int oraSzam) {     
+        this.jatszottOrak += oraSzam; 
+        System.out.println("Jó játékot!");
+        try {
+            for (int i = oraSzam; i >= 1; i--) {
+                System.out.println(i);
+                Thread.sleep(1000);
+            }
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Jatek.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Vége a játéknak!");
+        
+    }
+
     
 }
