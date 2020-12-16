@@ -252,7 +252,7 @@ public class Keretrendszer {
         do {                
             System.out.print("Kártya tulajdonos neve: ");
             kartyaTulajNeve = scan.nextLine();
-        } while (kartyaTulajNeve.length() == 0);
+        } while (kartyaTulajNeve.length() == 0 || kartyaTulajNeve.matches("[0-9]+") );
 
         do {                
             lejaratiDatumHonap = szamBekert("Lejárati dátum hónapja (hh)");
@@ -467,6 +467,7 @@ public class Keretrendszer {
         System.out.println("Sikeres regisztráció!");
         this.felhasznaloTarolo.getFelhasznalok().add(ujFelhasznalo);
         menuPontFuttatas();
+        save();
     }
    
     
