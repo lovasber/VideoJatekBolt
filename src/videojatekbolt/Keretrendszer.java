@@ -121,6 +121,12 @@ public class Keretrendszer {
                
     }
     
+    public void setAllNull(){
+        for (Jatek jatek : bolt.getJatekok()) {
+            jatek.setJatszottOrak(0);
+        }
+    }
+    
     
     private void menuPontFuttatas(){        
         int opcio = -1;
@@ -196,14 +202,15 @@ public class Keretrendszer {
     private void save(){
         try {
             FileWriter fwFelhasznalok = new FileWriter(new File("felhasznalok.txt"));
-            fwFelhasznalok.write("felhasznalonev;jelszo;teljesNev;kor;egyenleg;admin;bannolt\n");
+            fwFelhasznalok.write("felhasznalonev;jelszo;teljesNev;kor;egyenleg;admin;bannolt;jatekLista\n");
             for(Felhasznalo fh : this.felhasznaloTarolo.getFelhasznalok()){
                 fwFelhasznalok.write(fh.fileWriteString()+"\n");
             }
             fwFelhasznalok.close();
             
             FileWriter fwJatekok = new FileWriter(new File("jatekok.txt"));
-            fwJatekok.write("nev;stilus;korhatar;ar;leiras;jatszottOrak\n");
+            fwJatekok.write("nev*stilus*korhatar*ar*leiras*jatszottOrak\n");
+            setAllNull();
             for (Jatek jatek : this.bolt.getJatekok()) {
                 fwJatekok.write(jatek.fileWriteString()+"\n");
             }
@@ -288,6 +295,9 @@ public class Keretrendszer {
             if(jatekVagyNem.equals("y")){            
                 do {            
                     valasztottJatekIndex = szamBekert("Játék sorszáma");
+                    if(valasztottJatekIndex > belepettFelhasznalo.getMegvasaroltJatekok().size() || valasztottJatekIndex <= 0){
+                        System.out.println("Nem létező sorszám");
+                    }
                 } while (valasztottJatekIndex > belepettFelhasznalo.getMegvasaroltJatekok().size() || valasztottJatekIndex <= 0);
 
                 System.out.println("A választott játék: "+this.belepettFelhasznalo.getMegvasaroltJatekok().get(valasztottJatekIndex-1).getNev());
@@ -408,67 +418,67 @@ public class Keretrendszer {
         int korhatar = szamBekert("Korhatár");
         int ar = szamBekert("Ár");
         this.bolt.ujJatek(nev, stilus, korhatar, ar,leiras);
+        save();
     }
     
         public void regisztracio(){
-        Scanner scan  =  new Scanner(System.in);
-        System.out.println("Regisztráció");
-        String fnev = "?";
-        
-        boolean letezikIlyenNevuFelhasznalo = true;
-        
-        while(letezikIlyenNevuFelhasznalo){
-            //letezikIlyenNevuFelhasznalo = false;
-            System.out.print("Felhasználó név: ");
-            fnev = scan.nextLine();
-            int i = 0;
-            while(i < this.felhasznaloTarolo.getFelhasznalok().size() && !fnev.equals(this.felhasznaloTarolo.getFelhasznalok().get(i).getFelhasznaloNev())){
-                i++;
-            }
-            if(i == this.felhasznaloTarolo.getFelhasznalok().size()){
-                letezikIlyenNevuFelhasznalo = false;
-            }else{
-                System.out.println("Ez a felhasználónév már foglalt!");
-            }
-        }
+            Scanner scan  =  new Scanner(System.in);
+            System.out.println("Regisztráció");
+            String fnev = "?";
 
-        String jelszo = "";
-        String megerosit = "megerosites";
- 
-        int kor = -1;
-        while(!jelszo.equals(megerosit)){
-            System.out.print("Jelszó: ");
-            jelszo = scan.nextLine();
-            System.out.print("Jelszó mégegyszer: ");
-            megerosit = scan.nextLine();
-            if(!jelszo.equals(megerosit)){
-                System.out.println("A két jelszó nem egyezik meg!");
-            }
-        }
+            boolean letezikIlyenNevuFelhasznalo = true;
 
-        while(kor != -1){
-            System.out.println("Kor: ");
-            String sKor = scan.nextLine();
-            kor = Integer.parseInt(sKor);
-
-            if(kor == -1){
-                System.out.println("Nem szám!");
+            while(letezikIlyenNevuFelhasznalo){
+                //letezikIlyenNevuFelhasznalo = false;
+                System.out.print("Felhasználó név: ");
+                fnev = scan.nextLine();
+                int i = 0;
+                while(i < this.felhasznaloTarolo.getFelhasznalok().size() && !fnev.equals(this.felhasznaloTarolo.getFelhasznalok().get(i).getFelhasznaloNev())){
+                    i++;
+                }
+                if(i == this.felhasznaloTarolo.getFelhasznalok().size()){
+                    letezikIlyenNevuFelhasznalo = false;
+                }else{
+                    System.out.println("Ez a felhasználónév már foglalt!");
+                }
             }
-            if(kor<0){
-                kor=10;
-            }
-        }
-        
-        
-       Felhasznalo ujFelhasznalo = new Felhasznalo(fnev, jelszo,"", 0);
-        this.belepettFelhasznalo = ujFelhasznalo;
-        penzfeltoltesMain();
 
-        System.out.println("Sikeres regisztráció!");
-        this.felhasznaloTarolo.getFelhasznalok().add(ujFelhasznalo);
-        menuPontFuttatas();
-        save();
+            String jelszo = "";
+            String megerosit = "megerosites";
+
+            int kor = -1;
+            while(!jelszo.equals(megerosit)){
+                System.out.print("Jelszó: ");
+                jelszo = scan.nextLine();
+                System.out.print("Jelszó mégegyszer: ");
+                megerosit = scan.nextLine();
+                if(!jelszo.equals(megerosit)){
+                    System.out.println("A két jelszó nem egyezik meg!");
+                }
+            }
+
+            while(kor == -1){
+                System.out.print("Kor: ");
+                String sKor = scan.nextLine();
+                kor = Integer.parseInt(sKor);
+
+                if(kor == -1){
+                    System.out.println("Nem szám!");
+                }
+                if(kor<0){
+                    kor=10;
+                }
+            }        
+
+           Felhasznalo ujFelhasznalo = new Felhasznalo(fnev, jelszo,"", 0);
+            this.belepettFelhasznalo = ujFelhasznalo;
+            penzfeltoltesMain();
+
+            System.out.println("Sikeres regisztráció!");
+            this.felhasznaloTarolo.getFelhasznalok().add(ujFelhasznalo);
+            save();
+            menuPontFuttatas();
+            
     }
-   
-    
+  
 }

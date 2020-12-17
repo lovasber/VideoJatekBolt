@@ -81,13 +81,6 @@ class Felhasznalo {
         this.egyenleg += osszeg;
     }
     
-    public void jatszas(Jatek jatek){
-        
-    }
-    
-    public void kijelentkezes(){
-        
-    }
     
     public String fileWriteString(){
         String ret = this.felhasznaloNev+";"+this.jelszo+";"+this.teljesNev+";"+this.kor+";"+this.egyenleg+";"+this.admin+";"+this.bannolt+";";
